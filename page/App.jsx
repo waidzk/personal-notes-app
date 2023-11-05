@@ -16,6 +16,7 @@ class App extends React.Component {
     };
 
     this.addNoteHandler = this.addNoteHandler.bind(this);
+    this.deleteNoteHandler = this.deleteNoteHandler.bind(this);
     this.getActiveNotes = this.getActiveNotes.bind(this);
     this.onArchiveHandler = this.onArchiveHandler.bind(this);
     this.findNote = this.findNote.bind(this);
@@ -36,6 +37,11 @@ class App extends React.Component {
         ],
       };
     });
+  }
+
+  deleteNoteHandler(noteId) {
+    const notes = this.state.notes.filter((note) => note.id !== noteId);
+    this.setState({ notes });
   }
 
   getActiveNotes() {
@@ -87,12 +93,14 @@ class App extends React.Component {
           </div>
           <div className="note-section">
             <ActiveNotes
-              onArchiveHandler={this.onArchiveHandler}
               notes={this.getActiveNotes()}
+              onArchiveHandler={this.onArchiveHandler}
+              onDeleteHandler={this.deleteNoteHandler}
             />
             <ArchiveNotes
-              onArchiveHandler={this.onArchiveHandler}
               notes={this.getArchiveNotes()}
+              onArchiveHandler={this.onArchiveHandler}
+              onDeleteHandler={this.deleteNoteHandler}
             />
           </div>
         </main>
