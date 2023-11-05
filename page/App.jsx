@@ -40,8 +40,12 @@ class App extends React.Component {
 
   getActiveNotes() {
     let notes = this.state.notes;
-    console.log(notes.filter((note) => !note.archived));
     return notes.filter((note) => !note.archived);
+  }
+
+  getArchiveNotes() {
+    let notes = this.state.notes;
+    return notes.filter((note) => note.archived);
   }
 
   findNote(noteId) {
@@ -86,7 +90,10 @@ class App extends React.Component {
               onArchiveHandler={this.onArchiveHandler}
               notes={this.getActiveNotes()}
             />
-            <ArchiveNotes />
+            <ArchiveNotes
+              onArchiveHandler={this.onArchiveHandler}
+              notes={this.getArchiveNotes()}
+            />
           </div>
         </main>
       </div>

@@ -13,7 +13,6 @@ function ActiveNotes({ notes, onArchiveHandler }) {
               <h2 className="title-note">{note.title}</h2>
               <span className="date-note">
                 {showFormattedDate(note.createdAt)}/
-                {note.archived ? "Archived" : "Active"}
               </span>
               <div className="body-note">
                 <p>{note.body}</p>
