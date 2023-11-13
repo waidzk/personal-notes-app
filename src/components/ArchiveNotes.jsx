@@ -1,7 +1,7 @@
 import React from "react";
 import { showFormattedDate } from "../utils";
 
-function ArchiveNotes({ notes, onArchiveHandler }) {
+function ArchiveNotes({ notes, onArchiveHandler, onDeleteHandler }) {
   return (
     <div className="archive-notes">
       <h2 className="title-note-section">Arsip</h2>

@@ -55,8 +55,18 @@ class App extends React.Component {
   }
 
   deleteNoteHandler(noteId) {
-    const notes = this.state.notes.filter((note) => note.id !== noteId);
-    this.setState({ notes });
+    let notes = this.state.notes;
+    let searchNotes = this.state.searchNotes;
+    console.log(noteId);
+    this.setState(() => {
+      const updatedNotes = (notes || searchNotes).filter(
+        (note) => note.id !== noteId
+      );
+      return {
+        notes: updatedNotes,
+        searchNotes: updatedNotes,
+      };
+    });
   }
 
   getActiveNotes() {
