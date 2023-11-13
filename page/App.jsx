@@ -13,13 +13,28 @@ class App extends React.Component {
 
     this.state = {
       notes: getInitialData(),
+      searchNotes: null,
     };
 
     this.addNoteHandler = this.addNoteHandler.bind(this);
     this.deleteNoteHandler = this.deleteNoteHandler.bind(this);
     this.getActiveNotes = this.getActiveNotes.bind(this);
     this.onArchiveHandler = this.onArchiveHandler.bind(this);
+    this.onSearchHandler = this.onSearchHandler.bind(this);
     this.findNote = this.findNote.bind(this);
+  }
+
+  onSearchHandler(searchQuery) {
+    let notes = this.state.notes;
+    this.setState(() => {
+      const filteredNotes = notes.filter((note) =>
+        note.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      return {
+        searchNotes: filteredNotes,
+      };
+    });
   }
 
   addNoteHandler({ title, body }) {
@@ -46,12 +61,22 @@ class App extends React.Component {
 
   getActiveNotes() {
     let notes = this.state.notes;
-    return notes.filter((note) => !note.archived);
+    let searchNotes = this.state.searchNotes;
+    if (searchNotes) {
+      return searchNotes.filter((note) => !note.archived);
+    } else {
+      return notes.filter((note) => !note.archived);
+    }
   }
 
   getArchiveNotes() {
     let notes = this.state.notes;
-    return notes.filter((note) => note.archived);
+    let searchNotes = this.state.searchNotes;
+    if (searchNotes) {
+      return searchNotes.filter((note) => note.archived);
+    } else {
+      return notes.filter((note) => note.archived);
+    }
   }
 
   findNote(noteId) {
@@ -63,8 +88,10 @@ class App extends React.Component {
   }
 
   onArchiveHandler(noteId, isArchived) {
-    this.setState((prevState) => {
-      const updatedNotes = prevState.notes.map((note) => {
+    let notes = this.state.notes;
+    let searchNotes = this.state.searchNotes;
+    this.setState(() => {
+      const updatedNotes = (notes || searchNotes).map((note) => {
         if (note.id === noteId) {
           return {
             ...note,
@@ -76,6 +103,7 @@ class App extends React.Component {
 
       return {
         notes: updatedNotes,
+        searchNotes: updatedNotes,
       };
     });
   }
@@ -89,7 +117,7 @@ class App extends React.Component {
             <Form addNote={this.addNoteHandler} />
           </div>
           <div className="search-section">
-            <Search />
+            <Search searchNote={this.onSearchHandler} />
           </div>
           <div className="note-section">
             <ActiveNotes
