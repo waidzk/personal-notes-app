@@ -26,15 +26,19 @@ class App extends React.Component {
 
   onSearchHandler(searchQuery) {
     let notes = this.state.notes;
-    this.setState(() => {
-      const filteredNotes = notes.filter((note) =>
-        note.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+    if (searchQuery) {
+      this.setState(() => {
+        const filteredNotes = notes.filter((note) =>
+          note.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
 
-      return {
-        searchNotes: filteredNotes,
-      };
-    });
+        return {
+          searchNotes: filteredNotes,
+        };
+      });
+    } else {
+      this.setState({ searchNotes: null, notes: notes });
+    }
   }
 
   addNoteHandler({ title, body }) {
@@ -56,15 +60,12 @@ class App extends React.Component {
 
   deleteNoteHandler(noteId) {
     let notes = this.state.notes;
-    let searchNotes = this.state.searchNotes;
-    console.log(noteId);
+    // let searchNotes = this.state.searchNotes;
+    // console.log(noteId);
     this.setState(() => {
-      const updatedNotes = (notes || searchNotes).filter(
-        (note) => note.id !== noteId
-      );
+      const updatedNotes = notes.filter((note) => note.id !== noteId);
       return {
         notes: updatedNotes,
-        searchNotes: updatedNotes,
       };
     });
   }
@@ -99,9 +100,9 @@ class App extends React.Component {
 
   onArchiveHandler(noteId, isArchived) {
     let notes = this.state.notes;
-    let searchNotes = this.state.searchNotes;
+    // let searchNotes = this.state.searchNotes;
     this.setState(() => {
-      const updatedNotes = (notes || searchNotes).map((note) => {
+      const updatedNotes = notes.map((note) => {
         if (note.id === noteId) {
           return {
             ...note,
@@ -113,7 +114,7 @@ class App extends React.Component {
 
       return {
         notes: updatedNotes,
-        searchNotes: updatedNotes,
+        // searchNotes: updatedNotes,
       };
     });
   }
