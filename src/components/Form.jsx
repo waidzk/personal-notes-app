@@ -6,6 +6,7 @@ class Form extends React.Component {
 
     this.state = {
       title: "",
+      titleLimit: 50,
       body: "",
     };
 
@@ -17,7 +18,7 @@ class Form extends React.Component {
   titleHandler(event) {
     this.setState(() => {
       return {
-        title: event.target.value,
+        title: event.target.value.slice(0, this.state.titleLimit),
       };
     });
   }
@@ -48,7 +49,11 @@ class Form extends React.Component {
           value={this.state.title}
           type="text"
           id="titleInput"
+          required
         />
+        <span className="title-limit">
+          {this.state.titleLimit - this.state.title.length}
+        </span>
         <textarea
           placeholder="Tulis catatanmu disini..."
           onChange={this.bodyHandler}
@@ -56,6 +61,7 @@ class Form extends React.Component {
           id="bodyInput"
           cols="30"
           rows="10"
+          required
         ></textarea>
         <button className="btnSubmit" type="submit">
           Buat Catatan
