@@ -60,8 +60,6 @@ class App extends React.Component {
 
   deleteNoteHandler(noteId) {
     let notes = this.state.notes;
-    // let searchNotes = this.state.searchNotes;
-    // console.log(noteId);
     this.setState(() => {
       const updatedNotes = notes.filter((note) => note.id !== noteId);
       return {
@@ -100,7 +98,6 @@ class App extends React.Component {
 
   onArchiveHandler(noteId, isArchived) {
     let notes = this.state.notes;
-    // let searchNotes = this.state.searchNotes;
     this.setState(() => {
       const updatedNotes = notes.map((note) => {
         if (note.id === noteId) {
@@ -114,7 +111,6 @@ class App extends React.Component {
 
       return {
         notes: updatedNotes,
-        // searchNotes: updatedNotes,
       };
     });
   }
