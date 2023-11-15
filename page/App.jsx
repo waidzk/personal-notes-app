@@ -60,12 +60,26 @@ class App extends React.Component {
 
   deleteNoteHandler(noteId) {
     let notes = this.state.notes;
-    this.setState(() => {
-      const updatedNotes = notes.filter((note) => note.id !== noteId);
-      return {
-        notes: updatedNotes,
-      };
-    });
+    let searchNotes = this.state.searchNotes;
+    if (!searchNotes) {
+      this.setState(() => {
+        const updatedNotes = notes.filter((note) => note.id !== noteId);
+        return {
+          notes: updatedNotes,
+        };
+      });
+    } else {
+      this.setState(() => {
+        const updatedNotes = notes.filter((note) => note.id !== noteId);
+        const updatedSearchNotes = searchNotes.filter(
+          (note) => note.id !== noteId
+        );
+        return {
+          notes: updatedNotes,
+          searchNotes: updatedSearchNotes,
+        };
+      });
+    }
   }
 
   getActiveNotes() {
@@ -98,21 +112,51 @@ class App extends React.Component {
 
   onArchiveHandler(noteId, isArchived) {
     let notes = this.state.notes;
-    this.setState(() => {
-      const updatedNotes = notes.map((note) => {
-        if (note.id === noteId) {
-          return {
-            ...note,
-            archived: !isArchived,
-          };
-        }
-        return note;
-      });
+    let searchNotes = this.state.searchNotes;
+    if (!searchNotes) {
+      this.setState(() => {
+        const updatedNotes = notes.map((note) => {
+          if (note.id === noteId) {
+            return {
+              ...note,
+              archived: !isArchived,
+            };
+          }
+          return note;
+        });
 
-      return {
-        notes: updatedNotes,
-      };
-    });
+        return {
+          notes: updatedNotes,
+        };
+      });
+    } else {
+      this.setState(() => {
+        const updatedNotes = notes.map((note) => {
+          if (note.id === noteId) {
+            return {
+              ...note,
+              archived: !isArchived,
+            };
+          }
+          return note;
+        });
+
+        const updatedSearchNotes = searchNotes.map((note) => {
+          if (note.id === noteId) {
+            return {
+              ...note,
+              archived: !isArchived,
+            };
+          }
+          return note;
+        });
+
+        return {
+          notes: updatedNotes,
+          searchNotes: updatedSearchNotes,
+        };
+      });
+    }
   }
 
   render() {

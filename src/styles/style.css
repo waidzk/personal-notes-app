@@ -115,7 +115,8 @@
 
 .card .body-note {
   height: 200px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-wrap: break-word;
 }
 
 .body-note p {
